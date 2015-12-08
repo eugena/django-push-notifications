@@ -49,7 +49,7 @@ class GCMDevice(Device):
 	# http://android-developers.blogspot.co.uk/2011/03/identifying-app-installations.html
 	device_id = HexIntegerField(verbose_name=_("Device ID"), blank=True, null=True, db_index=True,
 		help_text=_("ANDROID_ID / TelephonyManager.getDeviceId() (always as hex)"))
-	registration_id = models.TextField(verbose_name=_("Registration ID"))
+	registration_id = models.CharField(verbose_name=_("Registration ID"), max_length=512)
 
 	objects = GCMDeviceManager()
 
