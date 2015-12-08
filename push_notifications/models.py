@@ -13,7 +13,6 @@ class Device(models.Model):
 	name = models.CharField(max_length=255, verbose_name=_("Name"), blank=True, null=True)
 	active = models.BooleanField(verbose_name=_("Is active"), default=True,
 		help_text=_("Inactive devices will not be sent notifications"))
-	user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
 	date_created = models.DateTimeField(verbose_name=_("Creation date"), auto_now_add=True, null=True)
 
 	class Meta:
@@ -49,6 +48,7 @@ class GCMDevice(Device):
 	# http://android-developers.blogspot.co.uk/2011/03/identifying-app-installations.html
 	device_id = HexIntegerField(verbose_name=_("Device ID"), blank=True, null=True, db_index=True,
 		help_text=_("ANDROID_ID / TelephonyManager.getDeviceId() (always as hex)"))
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, related_name='user_gsm_devices')
 	registration_id = models.CharField(verbose_name=_("Registration ID"), max_length=512)
 
 	objects = GCMDeviceManager()
@@ -80,6 +80,7 @@ class APNSDeviceQuerySet(models.query.QuerySet):
 class APNSDevice(Device):
 	device_id = models.UUIDField(verbose_name=_("Device ID"), blank=True, null=True, db_index=True,
 		help_text="UDID / UIDevice.identifierForVendor()")
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, related_name='user_apn_devices')
 	registration_id = models.CharField(verbose_name=_("Registration ID"), max_length=64, unique=True)
 
 	objects = APNSDeviceManager()
