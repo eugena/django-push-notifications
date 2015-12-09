@@ -80,7 +80,7 @@ class APNSDeviceQuerySet(models.query.QuerySet):
 class APNSDevice(Device):
 	device_id = models.UUIDField(verbose_name=_("Device ID"), blank=True, null=True, db_index=True,
 		help_text="UDID / UIDevice.identifierForVendor()")
-	user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, related_name='user_apn_devices')
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, related_name='user_apns_devices')
 	registration_id = models.CharField(verbose_name=_("Registration ID"), max_length=64, unique=True)
 
 	objects = APNSDeviceManager()
